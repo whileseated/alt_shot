@@ -2,11 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Alt-shot as Threesomes (or Foursomes)</title>
   <style>
     body {
       font-family: 'Source Code Pro', -apple-system, sans-serif;
-      margin: 20px;
+      margin: 5px 20px 20px 20px;
       padding: 10px;
       line-height: 1.2;
       font-size: 12px;
@@ -48,12 +49,13 @@
     input[type="text"] {
       width: 100%;
       max-width: 500px;
-      padding: 5px;
-      font-size: 12px;
+      padding: 10px;
+      font-size: 16px;
       font-family: 'Source Code Pro', sans-serif;
       border: 1px solid #ddd;
       border-radius: 3px;
       box-sizing: border-box;
+      margin-bottom: 8px;
     }
 
     input[type="text"]:focus {
@@ -63,8 +65,8 @@
 
     button {
       margin-top: 10px;
-      padding: 5px 10px;
-      font-size: 12px;
+      padding: 12px 20px;
+      font-size: 16px;
       font-family: 'Source Code Pro', sans-serif;
       cursor: pointer;
       border: 1px solid #ddd;
@@ -159,14 +161,27 @@
   </div>
 
   <div class="controls">
-    <label for="playersInput">Players (3 or 4, comma-separated)</label>
     <input
       type="text"
-      id="playersInput"
-      placeholder="e.g. bob, robert, robbie"
+      id="player1"
+      placeholder="Player 1"
     />
-    <br>
-    <button id="generateBtn">Generate 18-Hole Batting Order</button>
+    <input
+      type="text"
+      id="player2"
+      placeholder="Player 2"
+    />
+    <input
+      type="text"
+      id="player3"
+      placeholder="Player 3"
+    />
+    <input
+      type="text"
+      id="player4"
+      placeholder="Player 4 (optional)"
+    />
+    <button id="generateBtn">Generate 18-Hole Alt-Shot Order</button>
     <div id="error" class="error"></div>
   </div>
 
@@ -230,26 +245,25 @@
     }
 
     document.getElementById("generateBtn").addEventListener("click", () => {
-      const raw = document.getElementById("playersInput").value.trim();
       const errorEl = document.getElementById("error");
       const descEl = document.querySelector(".grid-wrapper > p");
       errorEl.textContent = "";
       errorEl.classList.remove("show");
       descEl.classList.remove("show");
 
-      if (!raw) {
-        errorEl.textContent = "Please enter 3 or 4 player names.";
-        errorEl.classList.add("show");
-        return;
-      }
+      // Collect values from all four input fields
+      const inputs = [
+        document.getElementById("player1").value.trim(),
+        document.getElementById("player2").value.trim(),
+        document.getElementById("player3").value.trim(),
+        document.getElementById("player4").value.trim()
+      ];
 
-      const players = raw
-        .split(",")
-        .map(p => p.trim())
-        .filter(p => p.length > 0);
+      // Filter out empty values
+      const players = inputs.filter(p => p.length > 0);
 
       if (players.length !== 3 && players.length !== 4) {
-        errorEl.textContent = `Expected 3 or 4 players, got ${players.length}.`;
+        errorEl.textContent = `Please enter exactly 3 or 4 player names (you entered ${players.length}).`;
         errorEl.classList.add("show");
         return;
       }
@@ -258,7 +272,7 @@
       renderGrid(order);
       descEl.classList.add("show");
     });
-  </script>
-  <a href="https://michaeldavidmurphy.com">michaeldavidmurphy.com</a> updated: 20241202 - 4:26 PM EST
+  </script><br>
+  <a href="https://michaeldavidmurphy.com">michaeldavidmurphy.com</a> - 20251202 - 4:26 PM EST
 </body>
 </html>
