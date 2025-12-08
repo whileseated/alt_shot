@@ -4,39 +4,41 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Alt-shot as Threesomes (or Foursomes)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;700&display=swap" rel="stylesheet">
   <style>
     body {
-      font-family: 'Source Code Pro', -apple-system, sans-serif;
-      margin: 5px 20px 20px 20px;
-      padding: 10px;
-      line-height: 1.2;
+      font-family: 'Source Code Pro', sans-serif;
       font-size: 12px;
+      line-height: 1.2;
+      margin: 20px;
       color: #333;
       background-color: #f5f5f5;
+      padding: 10px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .content-section {
+      background-color: #fff;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      padding: 10px;
+      border-radius: 5px;
+      margin-bottom: 10px;
     }
 
     h1 {
       font-size: 16px;
-      margin-bottom: 10px;
       font-weight: bold;
+      margin: 0 0 10px 0;
     }
 
-    .info-box {
-      font-size: 13px;
-      color: #4e4c4c;
-      background-color: #fff;
-      padding: 10px;
-      border-radius: 5px;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    .description {
+      font-size: 12px;
+      color: #333;
       margin-bottom: 10px;
-    }
-
-    .controls {
-      background-color: #fff;
-      padding: 10px;
-      border-radius: 5px;
-      margin-bottom: 10px;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     }
 
     label {
@@ -49,13 +51,14 @@
     input[type="text"] {
       width: 100%;
       max-width: 500px;
-      padding: 10px;
-      font-size: 16px;
+      padding: 5px;
+      font-size: 12px;
       font-family: 'Source Code Pro', sans-serif;
       border: 1px solid #ddd;
       border-radius: 3px;
       box-sizing: border-box;
-      margin-bottom: 8px;
+      margin-bottom: 5px;
+      background: #fff;
     }
 
     input[type="text"]:focus {
@@ -67,18 +70,18 @@
       display: block;
       width: 100%;
       max-width: 500px;
-      margin-top: 10px;
-      padding: 12px 20px;
-      font-size: 16px;
+      margin-top: 5px;
+      padding: 5px 10px;
+      font-size: 12px;
       font-family: 'Source Code Pro', sans-serif;
       cursor: pointer;
       border: 1px solid #ddd;
       border-radius: 3px;
-      background: #f5f5f5;
+      background: #e8eaf6;
     }
 
     button:hover {
-      background: #e0e0e0;
+      background: #c5cae9;
     }
 
     .error {
@@ -95,23 +98,18 @@
       display: block;
     }
 
-    .grid-wrapper {
-      margin-top: 10px;
+    .results-section {
+      display: none;
     }
 
-    .grid-wrapper > p {
-      display: none;
+    .results-section.show {
+      display: block;
+    }
+
+    .instructions {
       font-size: 11px;
       color: #666;
-      background-color: #fff;
-      padding: 10px;
-      border-radius: 5px;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
       margin-bottom: 10px;
-    }
-
-    .grid-wrapper > p.show {
-      display: block;
     }
 
     .grid {
@@ -148,49 +146,52 @@
 
     a {
       color: #333;
-      text-decoration: underline;
+      text-decoration: none;
     }
 
     a:hover {
-      color: #666;
+      background: #f5f5f5;
     }
   </style>
 </head>
 <body>
-  <h1>Alt-Shot Generator (for three or four player teams)</h1>
+  <div class="container">
+    <div class="content-section">
+      <h1>Alt-Shot Generator (for three or four player teams)</h1>
+      <div class="description">
+        <strong>What is this?</strong> We're all familiar with how <a href="https://en.wikipedia.org/wiki/Foursomes">alternate shot</a> (often called "foursomes") works with a two-man team; player1 hits tee-shots on even holes, player2 tees-off on the odds, Ryder Cup-style.<br><br>What would it look like, if, with a team of three, <b>everyone played tee-shots on <i>every</i> hole</b>, and each ball had a repeatable alt-shot order, so there were three or four alt-shot "games" in play, for a round?
+      </div>
+    </div>
 
-  <div class="info-box">
-    <strong>What is this?</strong> We're all familiar with how <a href="https://en.wikipedia.org/wiki/Foursomes">alternate shot</a> (often called "foursomes") works with a two-man team; player1 hits tee-shots on even holes, player2 tees-off on the odds, Ryder Cup-style.<br><br>What would it look like, if, with a team of three, <b>everyone played tee-shots on <i>every</i> hole</b>, and each ball had a repeatable alt-shot order, so there were three or four alt-shot "games" in play, for a round?
-  </div>
+    <div class="content-section">
+      <input
+        type="text"
+        id="player1"
+        placeholder="Player 1"
+      />
+      <input
+        type="text"
+        id="player2"
+        placeholder="Player 2"
+      />
+      <input
+        type="text"
+        id="player3"
+        placeholder="Player 3"
+      />
+      <input
+        type="text"
+        id="player4"
+        placeholder="Player 4 (optional)"
+      />
+      <button id="generateBtn">Generate 18-Hole Alt-Shot Order</button>
+      <div id="error" class="error"></div>
+    </div>
 
-  <div class="controls">
-    <input
-      type="text"
-      id="player1"
-      placeholder="Player 1"
-    />
-    <input
-      type="text"
-      id="player2"
-      placeholder="Player 2"
-    />
-    <input
-      type="text"
-      id="player3"
-      placeholder="Player 3"
-    />
-    <input
-      type="text"
-      id="player4"
-      placeholder="Player 4 (optional)"
-    />
-    <button id="generateBtn">Generate 18-Hole Alt-Shot Order</button>
-    <div id="error" class="error"></div>
-  </div>
-
-  <div class="grid-wrapper">
-    <p>"Follows" means player1 hits every shot (on that hole) that player2 has hit, until that ball is in the hole.</p>
-    <div id="grid" class="grid"></div>
+    <div class="content-section results-section">
+      <div class="instructions">"Follows" means player1 hits every shot (on that hole) that player2 has hit, until that ball is in the hole.</div>
+      <div id="grid" class="grid"></div>
+    </div>
   </div>
 
   <script>
@@ -249,10 +250,10 @@
 
     document.getElementById("generateBtn").addEventListener("click", () => {
       const errorEl = document.getElementById("error");
-      const descEl = document.querySelector(".grid-wrapper > p");
+      const resultsSection = document.querySelector(".results-section");
       errorEl.textContent = "";
       errorEl.classList.remove("show");
-      descEl.classList.remove("show");
+      resultsSection.classList.remove("show");
 
       // Collect values from all four input fields
       const inputs = [
@@ -273,9 +274,10 @@
 
       const order = generateBattingOrder(players, 18);
       renderGrid(order);
-      descEl.classList.add("show");
+      resultsSection.classList.add("show");
     });
-  </script><br>
-  <a href="https://michaeldavidmurphy.com">michaeldavidmurphy.com</a> - 20251202 - 4:39 PM EST
+  </script>
+
+  <a href="https://michaeldavidmurphy.com">michaeldavidmurphy.com</a> - 20251208 - 10:22 AM [<a href="https://github.com/whileseated/alt_shot">on github</a>]
 </body>
 </html>
