@@ -4,10 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Alt-shot as Threesomes (or Foursomes)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;700&display=swap" rel="stylesheet">
   <style>
     body {
-      font-family: 'Source Code Pro', sans-serif;
+      font-family: 'Inter', sans-serif;
       font-size: 12px;
       line-height: 1.2;
       margin: 20px;
@@ -30,21 +31,29 @@
     }
 
     h1 {
+      font-family: 'Inter', sans-serif;
       font-size: 16px;
-      font-weight: bold;
+      font-weight: 700;
       margin: 0 0 10px 0;
     }
 
     .description {
+      font-family: 'Inter', sans-serif;
       font-size: 12px;
       color: #333;
       margin-bottom: 10px;
     }
 
+    strong, b {
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+    }
+
     label {
+      font-family: 'Inter', sans-serif;
       display: block;
       margin-bottom: 5px;
-      font-weight: bold;
+      font-weight: 600;
       font-size: 12px;
     }
 
@@ -73,15 +82,15 @@
       margin-top: 5px;
       padding: 5px 10px;
       font-size: 12px;
-      font-family: 'Source Code Pro', sans-serif;
+      font-family: 'Inter', sans-serif;
       cursor: pointer;
       border: 1px solid #ddd;
       border-radius: 3px;
-      background: #e8eaf6;
+      background: #f5f5f5;
     }
 
     button:hover {
-      background: #c5cae9;
+      background: #e0e0e0;
     }
 
     .error {
@@ -107,6 +116,7 @@
     }
 
     .instructions {
+      font-family: 'Inter', sans-serif;
       font-size: 11px;
       color: #666;
       margin-bottom: 10px;
@@ -145,6 +155,7 @@
     }
 
     a {
+      font-family: 'Inter', sans-serif;
       color: #333;
       text-decoration: none;
     }
@@ -154,6 +165,7 @@
     }
 
     .footer {
+      font-family: 'Source Code Pro', sans-serif;
       font-size: 11px;
       color: #666;
       margin-top: 10px;
@@ -199,10 +211,30 @@
       <div id="grid" class="grid"></div>
     </div>
 
-    <div class="footer">
-      <a href="https://michaeldavidmurphy.com">michaeldavidmurphy.com</a> - 20251208 - 10:22 AM [<a href="https://github.com/whileseated/alt_shot">on github</a>]
-    </div>
+    <div class="footer" id="footer"></div>
   </div>
+
+  <script>
+    // Load dynamic footer
+    fetch('includes/footer.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('footer').innerHTML = data;
+
+        // Load timestamp for this specific file
+        return fetch('includes/file-timestamps.json');
+      })
+      .then(response => response.json())
+      .then(timestamps => {
+        const filename = window.location.pathname.split('/').pop() || 'index.html';
+        const timestamp = timestamps[filename] || '20251208';
+        document.getElementById('last-updated').textContent = timestamp;
+      })
+      .catch(err => {
+        // Fallback to static content if dynamic loading fails
+        document.getElementById('footer').innerHTML = '<a href="https://michaeldavidmurphy.com">michaeldavidmurphy.com</a> - 20251208 [<a href="https://github.com/whileseated/alt_shot">on github</a>]';
+      });
+  </script>
 
   <script>
     function stepForHole(holeNumber, n) {

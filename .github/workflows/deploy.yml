@@ -1,0 +1,61 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🚚 Get Latest Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 🕐 Generate Per-File Timestamps
+        run: |
+          mkdir -p includes
+          # Get last commit date for each HTML file and create timestamp JSON
+          echo "{" > includes/file-timestamps.json
+          for file in *.html; do
+            if [ -f "$file" ]; then
+              # Get Unix timestamp from git
+              unix_time=$(git log -1 --format="%at" -- "$file")
+              if [ ! -z "$unix_time" ]; then
+                timestamp=$(date -d "@$unix_time" +'%Y%m%d' 2>/dev/null || date -r "$unix_time" +'%Y%m%d')
+                if [ ! -z "$timestamp" ]; then
+                  echo "  \"$file\": \"$timestamp\"," >> includes/file-timestamps.json
+                fi
+              fi
+            fi
+          done
+          # Remove trailing comma and close JSON
+          sed -i '$ s/,$//' includes/file-timestamps.json
+          echo "}" >> includes/file-timestamps.json
+          cat includes/file-timestamps.json
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
