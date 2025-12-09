@@ -4,8 +4,8 @@
 
 mkdir -p includes
 
-# Get current timestamp in "YYYYMMDD - HH:MM AM/PM" format
-current_timestamp=$(date +'%Y%m%d - %-I:%M %p')
+# Get current timestamp in "YYYYMMDD - HH:MM AM/PM" format (New York time)
+current_timestamp=$(TZ='America/New_York' date +'%Y%m%d - %-I:%M %p EST')
 
 # Create timestamp JSON with current time for all HTML files
 echo "{" > includes/file-timestamps.json
