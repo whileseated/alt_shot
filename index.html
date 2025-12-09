@@ -227,12 +227,12 @@
       .then(response => response.json())
       .then(timestamps => {
         const filename = window.location.pathname.split('/').pop() || 'index.html';
-        const timestamp = timestamps[filename] || '20251209 - 12:00 PM';
+        const timestamp = timestamps[filename] || '20251209 - 1:51 PM';
         document.getElementById('last-updated').textContent = timestamp;
       })
       .catch(err => {
         // Fallback to static content if dynamic loading fails
-        document.getElementById('footer').innerHTML = '<a href="https://michaeldavidmurphy.com">michaeldavidmurphy.com</a> - 20251209 - 12:00 PM [<a href="https://github.com/whileseated/alt_shot">on github</a>]';
+        document.getElementById('footer').innerHTML = '<a href="https://michaeldavidmurphy.com">michaeldavidmurphy.com</a> - 20251209 - 1:51 PM [<a href="https://github.com/whileseated/alt_shot">on github</a>]';
       });
   </script>
 
